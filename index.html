@@ -1,68 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Access-Control-Allow-Origin" content="*">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-		<link rel="stylesheet" href="style.css" />
-		<title>Anywhere</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	</head>
-	<body>
-		<div class="container justify-content-center">
-            <div class="weather">
-                <div class="row">
-                    <div class=" col-md-6 ">
-                        <div class="card">
-                            <span class="icon"><img class="img-fluid" src="https://i.ibb.co/X2nVpqy/1200px-Temperature-in-e-V-svg.png"/></span>
-                            <div class="title"><p>Temperature</p></div>
-                            <div class="temp"><span id="rainState">wait...</span><sup>&deg;</sup></div>
-                                
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <span class="icon"><img class="img-fluid" src="https://i.ibb.co/3vRS9qy/290-2908914-water-level-icon-water-level-indicator-icon.jpg"/></span>
-                            <div class="title"><p>Rain State</p></div>
-                            <div class="temp"><span id="tempState">wait...</span><sup>&deg;</sup></div>                         
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <span class="icon"><img src="https://i.ibb.co/f4SN2QN/ldr.png"/></span>
-                            <div class="title"><p>Light Value</p></div>
-                            <div class="temp"><span id="ldrState">wait...</span><sup>&deg;</sup></div>	
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <v class="card">
-                            <span class="icon"><img src="https://i.ibb.co/Mhp8SrN/viewsonic-ultrasonic-level-sensor-details1.jpg"/></span>
-                            <div class="title"><p>Water Level </p></div>
-                            <div class="temp"><span id="distanceState">wait...</span><sup>&deg;</sup></div>
-                        </div>
-                    </div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="card">
-								<span class="icon"><img src="https://i.ibb.co/DtmDJLk/231-2313789-water-meter-icon-circle-clipart.jpg"/></span>
-								<div class="title"><p>Flow Speed</p></div>
-								<div class="temp"><span id="waterspeedState">wait...</span><sup>&deg;</sup></div>
-							</div>
-						</div>
-                </div>
-				<button type="button" id="light-on" class="buttonON" >Light ON</button>
-			<button type="button" id="light-off" class="buttonOFF" >Light OFF</button><br>
-		<br>
-		<img id="LightImage" src=" " alt="bulb" border="" width="300" height="300">
-            </div>
-                
-        </div>
-		
-		<script src="main.js"></script>	
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css" />
+	<title>Anywhere Dashboard</title>
+	<style>
+		.card {
+			width: 100%; /* Full-width for flexibility */
+			height: 350px; /* Fixed height for uniformity */
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 8px;
+		}
+		.card img {
+			max-height: 150px; /* Set consistent image size */
+			width: auto;
+			margin-bottom: 10px;
+		}
+		.card .card-text {
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.card .description {
+			font-size: 16px;
+			color: #555;
+			margin-top: 5px;
+		}
+		.container {
+			max-width: 1000px;
+			margin-top: 20px;
+		}
+		.buttonON, .buttonOFF {
+			font-size: 18px;
+			margin: 10px;
+		}
+		#LightImage {
+			width: 150px;
+			height: 150px;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container text-center">
+		<h2 class="mb-4">Aquarium Monitoring Dashboard</h2>
+		<div class="row justify-content-center">
+			<!-- Temperature Card -->
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://i.ibb.co/X2nVpqy/1200px-Temperature-in-e-V-svg.png" alt="Temperature Icon">
+					<div class="card-body">
+						<h5 class="card-title">Temperature</h5>
+						<p class="card-text"><span id="tempState">wait...</span><sup>&deg;C</sup></p>
+						<p class="description">If temperature is high, fan will automatically turn on.</p>
+					</div>
+				</div>
+			</div>
+			<!-- Rain State Card -->
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://i.ibb.co/3vRS9qy/290-2908914-water-level-icon-water-level-indicator-icon.jpg" alt="Rain Icon">
+					<div class="card-body">
+						<h5 class="card-title">Rain State</h5>
+						<p class="card-text"><span id="rainState">wait...</span></p>
+						<p class="description">If rain is detected, door will automatically close.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row justify-content-center">
+			<!-- Light Value Card -->
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://i.ibb.co/f4SN2QN/ldr.png" alt="Light Icon">
+					<div class="card-body">
+						<h5 class="card-title">Light Value</h5>
+						<p class="card-text"><span id="ldrState">wait...</span></p>
+						<p class="description">If it gets dark, the light will automatically turn on.</p>
+					</div>
+				</div>
+			</div>
+			<!-- Water Level Card -->
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://i.ibb.co/Mhp8SrN/viewsonic-ultrasonic-level-sensor-details1.jpg" alt="Water Level Icon">
+					<div class="card-body">
+						<h5 class="card-title">Water Level</h5>
+						<p class="card-text"><span id="distanceState">wait...</span></p>
+						<p class="description">If water level is low, water pump will automatically activate.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row justify-content-center">
+			<!-- Flow Speed Card -->
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="https://i.ibb.co/DtmDJLk/231-2313789-water-meter-icon-circle-clipart.jpg" alt="Flow Speed Icon">
+					<div class="card-body">
+						<h5 class="card-title">Flow Speed</h5>
+						<p class="card-text"><span id="waterspeedState">wait...</span></p>
+						<p class="description">Displays the current water flow speed.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Light Control Buttons -->
+		<div class="d-flex justify-content-center">
+			<button type="button" id="light-on" class="btn btn-success buttonON">Light ON</button>
+			<button type="button" id="light-off" class="btn btn-danger buttonOFF">Light OFF</button>
+		</div>
+
+		<!-- Bulb Image -->
+		<div>
+			<img id="LightImage" src="" alt="bulb">
+		</div>
+	</div>
+
+	<!-- JavaScript files -->
+	<script src="main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
