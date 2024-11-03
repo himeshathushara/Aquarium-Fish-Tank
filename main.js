@@ -13,11 +13,12 @@ function updateLightState(apiKey, state) {
     $.getJSON(url, data => console.log(data));
 }
 
+
 // Fetch data every 15 seconds
 setInterval(() => {
     fetchThingSpeakData(6, "LIGHTState", state => state == 1 ? "ON" : "OFF");
-    fetchThingSpeakData(1, "tempState");
-    fetchThingSpeakData(2, "rainState");
+    fetchThingSpeakData(1, "rainState");
+    fetchThingSpeakData(2, "tempState");
     fetchThingSpeakData(3, "ldrState");
     fetchThingSpeakData(4, "distanceState");
     fetchThingSpeakData(5, "waterspeedState");
