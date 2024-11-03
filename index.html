@@ -6,7 +6,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="style.css" />
-	<title>Anywhere Dashboard</title>
+	<title>Aquarium Monitoring Dashboard</title>
 	<style>
 		.card {
 			width: 100%; /* Full-width for flexibility */
@@ -17,6 +17,7 @@
 			justify-content: center;
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 			border-radius: 8px;
+			margin-bottom: 20px; /* Space between cards */
 		}
 		.card img {
 			max-height: 150px; /* Set consistent image size */
@@ -34,7 +35,8 @@
 		}
 		.container {
 			max-width: 1000px;
-			margin-top: 20px;
+			margin: auto; /* Center the container */
+			padding: 20px;
 		}
 		.buttonON, .buttonOFF {
 			font-size: 18px;
@@ -45,85 +47,100 @@
 			height: 150px;
 			margin-top: 20px;
 		}
+		@media (max-width: 576px) {
+			.card {
+				height: auto; /* Allow height to adjust on small screens */
+			}
+			.card .card-text {
+				font-size: 20px; /* Adjust font size for smaller screens */
+			}
+		}
 	</style>
 </head>
 <body>
 	<div class="container text-center">
 		<h2 class="mb-4">Aquarium Monitoring Dashboard</h2>
-		<div class="row justify-content-center">
+		<div class="row">
 			<!-- Temperature Card -->
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 col-sm-6 mb-4">
 				<div class="card">
 					<img src="https://i.ibb.co/X2nVpqy/1200px-Temperature-in-e-V-svg.png" alt="Temperature Icon">
 					<div class="card-body">
 						<h5 class="card-title">Temperature</h5>
-						<p class="card-text"><span id="tempState">wait...</span><sup>&deg;C</sup></p>
-						<p class="description">If temperature is high, fan will automatically turn on.</p>
+						<p class="card-text"><span id="tempState">Loading...</span><sup>&deg;C</sup></p>
+						<p class="description">Fan automatically turns on if the temperature is high.</p>
 					</div>
 				</div>
 			</div>
 			<!-- Rain State Card -->
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 col-sm-6 mb-4">
 				<div class="card">
 					<img src="https://i.ibb.co/3vRS9qy/290-2908914-water-level-icon-water-level-indicator-icon.jpg" alt="Rain Icon">
 					<div class="card-body">
 						<h5 class="card-title">Rain State</h5>
-						<p class="card-text"><span id="rainState">wait...</span></p>
-						<p class="description">If rain is detected, door will automatically close.</p>
+						<p class="card-text"><span id="rainState">Loading...</span></p>
+						<p class="description">Door automatically closes if rain is detected.</p>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row justify-content-center">
 			<!-- Light Value Card -->
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 col-sm-6 mb-4">
 				<div class="card">
 					<img src="https://i.ibb.co/f4SN2QN/ldr.png" alt="Light Icon">
 					<div class="card-body">
 						<h5 class="card-title">Light Value</h5>
-						<p class="card-text"><span id="ldrState">wait...</span></p>
-						<p class="description">If it gets dark, the light will automatically turn on.</p>
+						<p class="card-text"><span id="ldrState">Loading...</span></p>
+						<p class="description">Light automatically turns on if it gets dark.</p>
 					</div>
 				</div>
 			</div>
 			<!-- Water Level Card -->
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 col-sm-6 mb-4">
 				<div class="card">
 					<img src="https://i.ibb.co/Mhp8SrN/viewsonic-ultrasonic-level-sensor-details1.jpg" alt="Water Level Icon">
 					<div class="card-body">
 						<h5 class="card-title">Water Level</h5>
-						<p class="card-text"><span id="distanceState">wait...</span></p>
-						<p class="description">If water level is low, water pump will automatically activate.</p>
+						<p class="card-text"><span id="distanceState">Loading...</span></p>
+						<p class="description">Water pump activates if the water level is low.</p>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row justify-content-center">
 			<!-- Flow Speed Card -->
-			<div class="col-md-4 mb-4">
+			<div class="col-md-4 col-sm-6 mb-4">
 				<div class="card">
 					<img src="https://i.ibb.co/DtmDJLk/231-2313789-water-meter-icon-circle-clipart.jpg" alt="Flow Speed Icon">
 					<div class="card-body">
 						<h5 class="card-title">Flow Speed</h5>
-						<p class="card-text"><span id="waterspeedState">wait...</span></p>
+						<p class="card-text"><span id="waterspeedState">Loading...</span></p>
 						<p class="description">Displays the current water flow speed.</p>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Light Control Buttons -->
+		
+		<!-- Charts -->
+		<div class="row justify-content-center mt-4">
+			<iframe class="col-12 col-md-4" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2694167/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+			<iframe class="col-12 col-md-4" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2694167/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+			<iframe class="col-12 col-md-4" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2694167/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+			<iframe class="col-12 col-md-4" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2694167/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+			<iframe class="col-12 col-md-4" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2694167/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+
+		</div>
+
+        <!-- Light Control Buttons
 		<div class="d-flex justify-content-center">
 			<button type="button" id="light-on" class="btn btn-success buttonON">Light ON</button>
 			<button type="button" id="light-off" class="btn btn-danger buttonOFF">Light OFF</button>
 		</div>
 
 		<!-- Bulb Image -->
-		<div>
-			<img id="LightImage" src="" alt="bulb">
-		</div>
+		<!-- <div>
+			<img id="LightImage" src="" alt="Bulb" class="mt-3">
+		</div> --> -->
+
 	</div>
 
 	<!-- JavaScript files -->
