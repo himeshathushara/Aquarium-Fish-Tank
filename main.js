@@ -13,7 +13,6 @@ function updateLightState(apiKey, state) {
     $.getJSON(url, data => console.log(data));
 }
 
-
 // Fetch data every 15 seconds
 setInterval(() => {
     fetchThingSpeakData(6, "LIGHTState", state => state == 1 ? "ON" : "OFF");
@@ -32,20 +31,7 @@ function fetchThingSpeakData(field, elementId, transform = value => value) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             const data = JSON.parse(this.responseText);
-            if(field==1){
-                const rinn = transform(data[`field${field}`])
-                if (rinn > 50) {
-                document.getElementById(elementId).innerHTML = 'Rainning'
-
-                }else{
-                document.getElementById(elementId).innerHTML = 'Not Rainning'
-
-                }
-
-            }else{
             document.getElementById(elementId).innerHTML = transform(data[`field${field}`]);
-            }
-
         }
     };
 

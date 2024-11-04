@@ -84,6 +84,7 @@ double ldrSensor();
 double waterflowSensor();
 void connectToWiFi();
 void increase();
+void rotateServoTwice();
 
 void setup()
 {
@@ -99,6 +100,9 @@ void setup()
     pinMode(RELAY_PIN_PUMP, OUTPUT);
 
     attachInterrupt(digitalPinToInterrupt(WATERFLOW_PIN), increase, RISING);
+
+    ObjServo.attach(ServoGPIO);
+    ObjServo.write(0);
 
     // WiFi Configuration
     WiFi.mode(WIFI_STA);
@@ -186,6 +190,17 @@ double rainSensor()
     Serial.print("Raining: ");
     Serial.println(raining > 0 ? "Yes" : "No");
 
+    if (raining > 50) // Adjust threshold as needed
+    {
+        rotateServoTwice(); // Rotate servo to 90 degrees if it’s raining
+        Serial.println("Servo ON due to rain.");
+    }
+    else
+    {
+        ObjServo.write(0); // Rotate servo back to 0 degrees if no rain
+        Serial.println("Servo OFF, no rain detected.");
+    }
+
     return raining;
 }
 
@@ -232,7 +247,7 @@ double ultrasonicSensor()
     Serial.println(" inch");
 
     // Turn on the pump if distance is less than 19 cm
-    if (distance_cm < 19)
+    if (distance_cm > 18)
     {
         digitalWrite(RELAY_PIN_PUMP, LOW); // LOW to turn ON (depending on relay)
         Serial.println("Water Pump ON");
@@ -300,5 +315,22 @@ void lcdTask(void *parameter)
         lcd.print(" L/min");
 
         delay(2000); // Display for 2 seconds
+    }
+}
+
+void rotateServoTwice()
+{
+    for (int i = 0; i < 2; i++)
+    { // Loop twice for two full rotations
+        for (int angle = 0; angle <= 180; angle += 10)
+        {
+            ObjServo.write(angle);
+            delay(15); // Adjust delay for smoother movement
+        }
+        for (int angle = 180; angle >= 0; angle -= 10)
+        {
+            ObjServo.write(angle);
+            delay(15); // Adjust delay for smoother movement
+        }
     }
 }
