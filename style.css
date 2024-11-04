@@ -148,3 +148,18 @@ h1 {
   box-shadow: 0 0 7px #8e44ad;
   outline: none;
 }
+
+.high-value {
+  color: #ff8c00;
+  font-weight: bold;
+}
+
+.very-high-value {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.normal-value {
+  color: #008000;
+  font-weight: bold;
+}

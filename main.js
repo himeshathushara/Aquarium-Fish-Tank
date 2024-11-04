@@ -17,8 +17,30 @@ function updateLightState(apiKey, state) {
 setInterval(() => {
     fetchThingSpeakData(6, "LIGHTState", state => state == 1 ? "ON" : "OFF");
     fetchThingSpeakData(1, "rainState");
-    fetchThingSpeakData(2, "tempState");
-    fetchThingSpeakData(3, "ldrState");
+    fetchThingSpeakData(2, "tempState", temp => {
+        const fahrenheit = (temp * 9/5) + 32;
+        return fahrenheit.toFixed(1) + "°F";
+    });
+    fetchThingSpeakData(3, "ldrState", value => {
+        const element = document.getElementById('ldrState');
+        let lightLevel;
+        
+        if (value > 800) {
+            lightLevel = "Very High";
+            element.classList.add('very-high-value');
+            element.classList.remove('high-value', 'normal-value');
+        } else if (value > 500) {
+            lightLevel = "High";
+            element.classList.add('high-value');
+            element.classList.remove('very-high-value', 'normal-value');
+        } else {
+            lightLevel = "Normal";
+            element.classList.add('normal-value');
+            element.classList.remove('very-high-value', 'high-value');
+        }
+        
+        return `${value} (${lightLevel})`;
+    });
     fetchThingSpeakData(4, "distanceState");
     fetchThingSpeakData(5, "waterspeedState");
 }, 15000);
